@@ -78,4 +78,4 @@ elif [ "$pkg_tools" == "yum" ]; then
           mv $file_name $new_name
        fi
    done
-
+fi
