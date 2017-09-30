@@ -45,8 +45,13 @@ vmmin               southamerica-east1-a  10       pd-ssd       READY
 ``` 
 
 
-6. [ ] Next, create a snapshot of the problematic instance’s boot disk:
+6. [x] Next, create a snapshot of the problematic instance’s boot disk:
 In the Google Cloud Console, select Compute Engine > Snapshots, and click Create Snapshot. Name the snapshot something descriptive. For an example, we'll name the snapshot [INSTANCE-NAME]-disk-snapshot. For the Source disk, choose the problematic instance's boot disk determined in the previous step. Click Create.
+
+```
+gcloud compute --project=clirea-prod disks snapshot clirea-67 --zone=southamerica-east1-a --snapshot-names=clirea-67-snapshot
+``` 
+
 
 7. [ ] Then create a new disk from the snapshot:
 In the Google Cloud Console, select Compute Engine > Disks, and click Create Disk. Name the new disk something descriptive. For an example, we'll use [INSTANCE-NAME]-new-disk, using the instance name of the problematic instance. Change Source type to Snapshot, then select the Source snapshot created in the previous step. Click Create.
