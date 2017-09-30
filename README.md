@@ -75,18 +75,32 @@ Updated [https://www.googleapis.com/compute/v1/projects/clirea-prod/zones/southa
 ```
 
 
-9. [ ] Connect to the life-raft instance via SSH in the Browser, mount the disk you just attached, install the Guest Environment packages onto it, then unmount the disk
+9. [x] Connect to the life-raft instance via SSH in the Browser, mount the disk you just attached, install the Guest Environment packages onto it, then unmount the disk
     •	  [x]  List storage devices. Note the device identifier for the unmounted disk. If sda is the life raft instance's boot device, then the additional disk is likely sdb. The primary volume on it is likely sdb1 if the disk only has one volume. Otherwise, lsblk can provide you with a list of volumes on the device. (Run: `lsblk` to get this info) 
 
     • Create a new mount point and mount the additional disk as follows. The following code block will mount ext4 and xfs filesystems: 
     • [x] The [second script](./script2.sh) will do that for you
 
 
-     • [ ] Copy the Linux Guest Environment packages to the mounted problematic instance disk. Install the Linux Guest Environment packages in a chroot environment: by executing [script 3](./script3.sh)
+     • [X] Copy the Linux Guest Environment packages to the mounted problematic instance disk. Install the Linux Guest Environment packages in a chroot environment: by executing [script 3](./script3.sh)
+
+    ```
+    Not all commands went through smoothly, so I rpm'd -i the /tmp/lge_pkgs individually
+    ```
 
 
     • [ ] Then, unmount the additional disk: 
         `sudo umount /tmp/problematic-instance-new-disk`
+      ```
+      cannot seem possible to umount the disk due to the following error : 
+      
+      umount: /tmp/problematic-instance-new-disk: device is busy.
+        (In some cases useful info about processes that use
+         the device is found by lsof(8) or fuser(1))
+      
+      I will try a different approach by first stopping the life-raft and then dettaching the new-disk
+      ```
+
 
 
 10. [ ] Now go ahead and detach the [INSTANCE-NAME]-new-disk from life raft instance:
