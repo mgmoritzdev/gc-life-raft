@@ -66,10 +66,33 @@ NAME                ZONE                  SIZE_GB  TYPE         STATUS
 new-disk-clirea-67  southamerica-east1-a  10       pd-standard  READY
 ```
 
-8. [ ] Now, attach the newly created disk to the life-raft instance:
+8. [x] Now, attach the newly created disk to the life-raft instance:
 In the Google Cloud Console, select Compute Engine > VM Instances, and select the life raft instance. Click Edit, scroll down to Additional disks, and click Add item. Add the disk you created in the previous step; for example, [INSTANCE-NAME]-new-disk. Ensure the Modeis Read/write, and that When deleting instance is set to Keep disk. Scroll down and click Save.
 
-9. Connect to the life-raft instance via SSH in the Browser, mount the disk you just attached, install the Guest Environment packages onto it, then unmount the disk
-    •	    List storage devices. Note the device identifier for the unmounted disk. If sda is the life raft instance's boot device, then the additional disk is likely sdb. The primary volume on it is likely sdb1 if the disk only has one volume. Otherwise, lsblk can provide you with a list of volumes on the device. (Run: `lsblk` to get this info) 
+```
+gcci attach-disk life-raft --disk new-disk-clirea-67
+Updated [https://www.googleapis.com/compute/v1/projects/clirea-prod/zones/southamerica-east1-a/instances/life-raft].
+```
 
-    •	    Create a new mount point and mount the additional disk as follows. The following code block will mount ext4 and xfs filesystems: 
+
+9. [ ] Connect to the life-raft instance via SSH in the Browser, mount the disk you just attached, install the Guest Environment packages onto it, then unmount the disk
+    •	  [x]  List storage devices. Note the device identifier for the unmounted disk. If sda is the life raft instance's boot device, then the additional disk is likely sdb. The primary volume on it is likely sdb1 if the disk only has one volume. Otherwise, lsblk can provide you with a list of volumes on the device. (Run: `lsblk` to get this info) 
+
+    • Create a new mount point and mount the additional disk as follows. The following code block will mount ext4 and xfs filesystems: 
+    • [x] The [second script](./script2.sh) will do that for you
+
+
+     • [ ] Copy the Linux Guest Environment packages to the mounted problematic instance disk. Install the Linux Guest Environment packages in a chroot environment: by executing [script 3](./script3.sh)
+
+
+    • [ ] Then, unmount the additional disk: 
+        `sudo umount /tmp/problematic-instance-new-disk`
+
+
+10. [ ] Now go ahead and detach the [INSTANCE-NAME]-new-disk from life raft instance:
+     ◦	 In the Google Cloud Console, select Compute Engine > VM Instances, and select the life raft instance. Click Edit, scroll down to Additional disks, and click the X icon next to the disk you attached in step 5. Scroll down and click Save. 
+11. [ ] Next, clone the problematic instance, selecting the [INSTANCE-NAME]-new-disk as its boot disk. This creates the ‘repaired instance.’
+     ◦	   In the Google Cloud Console, select Compute Engine > VM Instances, and select the stopped problematic instance. Click Clone. Provide a new name for the instance; for example,[INSTANCE-NAME]-repaired. In the Boot disk section, click Change, the click Existing Disks. Select the disk you just detached from the life raft instance (for example,[INSTANCE-NAME]-new-disk), click Select then click Create. 
+12. [ ] Now that the repaired instance is created, verify that you can connect successfully to the repaired instance via SSH in the Browser.
+     •	 If you were able to successfully connect to the repaired instance, you can now clean up. You may delete the problematic instance, its problematic boot disk, and the snapshot you created. 
+
