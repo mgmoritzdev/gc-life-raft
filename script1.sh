@@ -13,9 +13,12 @@ elif [ -f "/etc/system-release-cpe" ]; then
   dist_vers="$(cat /etc/system-release-cpe | awk -F':' '{print tolower($5)}' | sed "s|server||g" | awk -F. '{print $1}')"
 fi
 dist_name_and_vers="$dist_name-$dist_vers"
+echo dist_name_and_vers
+echo $dist_name_and_vers
+
 
 # Determine packaging tools:
-#which apt
+which apt
 if [ "$dist_name_and_vers" == "0" ]; then
    pkg_tools="apt"
 else
