@@ -78,7 +78,7 @@ Updated [https://www.googleapis.com/compute/v1/projects/clirea-prod/zones/southa
 9. [x] Connect to the life-raft instance via SSH in the Browser, mount the disk you just attached, install the Guest Environment packages onto it, then unmount the disk
     •	  [x]  List storage devices. Note the device identifier for the unmounted disk. If sda is the life raft instance's boot device, then the additional disk is likely sdb. The primary volume on it is likely sdb1 if the disk only has one volume. Otherwise, lsblk can provide you with a list of volumes on the device. (Run: `lsblk` to get this info) 
 
-    • Create a new mount point and mount the additional disk as follows. The following code block will mount ext4 and xfs filesystems: 
+    • Create a new mount point and mount the additional disk as follows. The following code block will mount ext4 and xfs filesystems:
     • [x] The [second script](./script2.sh) will do that for you
 
 
@@ -98,15 +98,43 @@ Updated [https://www.googleapis.com/compute/v1/projects/clirea-prod/zones/southa
         (In some cases useful info about processes that use
          the device is found by lsof(8) or fuser(1))
       
-      I will try a different approach by first stopping the life-raft and then dettaching the new-disk
+      I will try a different approach by first stopping the life-raft and then going to the next step
       ```
 
 
 
-10. [ ] Now go ahead and detach the [INSTANCE-NAME]-new-disk from life raft instance:
-     ◦	 In the Google Cloud Console, select Compute Engine > VM Instances, and select the life raft instance. Click Edit, scroll down to Additional disks, and click the X icon next to the disk you attached in step 5. Scroll down and click Save. 
-11. [ ] Next, clone the problematic instance, selecting the [INSTANCE-NAME]-new-disk as its boot disk. This creates the ‘repaired instance.’
-     ◦	   In the Google Cloud Console, select Compute Engine > VM Instances, and select the stopped problematic instance. Click Clone. Provide a new name for the instance; for example,[INSTANCE-NAME]-repaired. In the Boot disk section, click Change, the click Existing Disks. Select the disk you just detached from the life raft instance (for example,[INSTANCE-NAME]-new-disk), click Select then click Create. 
+10. [x] Now go ahead and detach the [INSTANCE-NAME]-new-disk from life raft instance:
+     ◦	 In the Google Cloud Console, select Compute Engine > VM Instances, and select the life raft instance. Click Edit, scroll down to Additional disks, and click the X icon next to the disk you attached in step 5. Scroll down and click Save.
+
+      ```
+      After
+
+      gcci stop life-raft 
+
+      I tried to detach using gcloud, but unfortunately got this error : 
+
+      gcci detach-disk life-raft --disk=new-disk-clrea-67 --zone=southamerica-east1-a
+      
+      ERROR: (gcloud.compute.instances.detach-disk) Disk [new-disk-clrea-67] is not attached to instance [life-raft] in zone [southamerica-east1-a].
+      ``` 
+      ```
+      I will go ahead and try the same using the console
+
+      (ok) <== worked with the console
+      ```      
+
+11. [x] Next, clone the problematic instance, selecting the [INSTANCE-NAME]-new-disk as its boot disk. This creates the ‘repaired instance.’
+     ◦	   In the Google Cloud Console, select Compute Engine > VM Instances, and select the stopped problematic instance. Click Clone. Provide a new name for the instance; for example,[INSTANCE-NAME]-repaired. In the Boot disk section, click Change, the click Existing Disks. Select the disk you just detached from the life raft instance (for example,[INSTANCE-NAME]-new-disk), click Select then click Create.
+
+```
+gcloud beta compute --project "clirea-prod" instances create "clirea-67-r" --zone "southamerica-east1-a" --machine-type "custom-1-1792" --subnet "default" --metadata "port-enabled=1,serial-port-enable=1,serial-port-enabled=1,ssh-keys=ptmroot:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDl1ukLCkDFEIEEsGajlNtjQpgPNtjanPiGQK5QicWRsiSdfBPtuBvC4gKSzFgAioEKwFCPCNSYbcBlDZbPviMjIx8KIL2azMWYTwnakOcefKmEUq3r2GulxERq+t5IT9awzKxq5uul4QhH3IzmXMTV68k1kMIUgjdgIQTww5KuE6/7t+PWMr/OKOV2AqxicYN951fBtPnreV9R+49jQMeK7DwDcQsez2q6FHgyc2STEcr9C9WYUlkQSZcNHgiJ0guMYwbqNnuTDYHRG87JmsgUBmB+fwawAzjz3QhB36hWK/INg5W/NULociD3bShdnfqISvfioWkN130zCTSMSrFB ptmroot" --maintenance-policy "MIGRATE" --service-account "461101376066-compute@developer.gserviceaccount.com" --scopes "https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring.write","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --min-cpu-platform "Automatic" --tags "http-server" --disk "name=new-disk-clirea-67,device-name=new-disk-clirea-67,mode=rw,boot=yes"
+
+
+Created [https://www.googleapis.com/compute/beta/projects/clirea-prod/zones/southamerica-east1-a/instances/clirea-67-r].
+NAME         ZONE                  MACHINE_TYPE               PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
+clirea-67-r  southamerica-east1-a  custom (1 vCPU, 1.75 GiB)               10.158.0.6   192.198.0.2  RUNNING
+```
+
 12. [ ] Now that the repaired instance is created, verify that you can connect successfully to the repaired instance via SSH in the Browser.
      •	 If you were able to successfully connect to the repaired instance, you can now clean up. You may delete the problematic instance, its problematic boot disk, and the snapshot you created. 
 
