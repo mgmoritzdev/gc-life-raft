@@ -127,6 +127,8 @@ Updated [https://www.googleapis.com/compute/v1/projects/clirea-prod/zones/southa
      ◦	   In the Google Cloud Console, select Compute Engine > VM Instances, and select the stopped problematic instance. Click Clone. Provide a new name for the instance; for example,[INSTANCE-NAME]-repaired. In the Boot disk section, click Change, the click Existing Disks. Select the disk you just detached from the life raft instance (for example,[INSTANCE-NAME]-new-disk), click Select then click Create.
 
 ```
+'some info have been changed in order to not expose sensitive information' 
+
 gcloud beta compute --project "clirea-prod" instances create "clirea-67-r" --zone "southamerica-east1-a" --machine-type "custom-1-1792" --subnet "default" --metadata "port-enabled=1,serial-port-enable=1,serial-port-enabled=1,ssh-keys=ptmroot:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDl1ukLCkDFEIEEsGajlNtjQpgPNtjanPiGQK5QicWRsiSdfBPtuBvC4gKSzFgAioEKwFCPCNSYbcBlDZbPviMjIx8KIL2azMWYTwnakOcefKmEUq3r2GulxERq+t5IT9awzKxq5uul4QhH3IzmXMTV68k1kMIUgjdgIQTww5KuE6/7t+PWMr/OKOV2AqxicYN951fBtPnreV9R+49jQMeK7DwDcQsez2q6FHgyc2STEcr9C9WYUlkQSZcNHgiJ0guMYwbqNnuTDYHRG87JmsgUBmB+fwawAzjz3QhB36hWK/INg5W/NULociD3bShdnfqISvfioWkN130zCTSMSrFB ptmroot" --maintenance-policy "MIGRATE" --service-account "461101376066-compute@developer.gserviceaccount.com" --scopes "https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring.write","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --min-cpu-platform "Automatic" --tags "http-server" --disk "name=new-disk-clirea-67,device-name=new-disk-clirea-67,mode=rw,boot=yes"
 
 
@@ -138,3 +140,10 @@ clirea-67-r  southamerica-east1-a  custom (1 vCPU, 1.75 GiB)               10.15
 12. [ ] Now that the repaired instance is created, verify that you can connect successfully to the repaired instance via SSH in the Browser.
      •	 If you were able to successfully connect to the repaired instance, you can now clean up. You may delete the problematic instance, its problematic boot disk, and the snapshot you created. 
 
+```
+Unfortunately the same error remains
+
+gcssh clirea-67-r
+ssh: connect to host 192.198.0.1 port 22: Operation timed out
+ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
+``` 
