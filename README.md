@@ -50,11 +50,21 @@ In the Google Cloud Console, select Compute Engine > Snapshots, and click Create
 
 ```
 gcloud compute --project=clirea-prod disks snapshot clirea-67 --zone=southamerica-east1-a --snapshot-names=clirea-67-snapshot
+
+gcc snapshots list
+NAME                DISK_SIZE_GB  SRC_DISK                              STATUS
+clirea-67-snapshot  10            southamerica-east1-a/disks/clirea-67  READY
 ``` 
 
-
-7. [ ] Then create a new disk from the snapshot:
+7. [x] Then create a new disk from the snapshot:
 In the Google Cloud Console, select Compute Engine > Disks, and click Create Disk. Name the new disk something descriptive. For an example, we'll use [INSTANCE-NAME]-new-disk, using the instance name of the problematic instance. Change Source type to Snapshot, then select the Source snapshot created in the previous step. Click Create.
+
+```
+gcc disks create new-disk-clirea-67 --source-snapshot clirea-67-snapshot
+Created [https://www.googleapis.com/compute/v1/projects/clirea-prod/zones/southamerica-east1-a/disks/new-disk-clirea-67].
+NAME                ZONE                  SIZE_GB  TYPE         STATUS
+new-disk-clirea-67  southamerica-east1-a  10       pd-standard  READY
+```
 
 8. [ ] Now, attach the newly created disk to the life-raft instance:
 In the Google Cloud Console, select Compute Engine > VM Instances, and select the life raft instance. Click Edit, scroll down to Additional disks, and click Add item. Add the disk you created in the previous step; for example, [INSTANCE-NAME]-new-disk. Ensure the Modeis Read/write, and that When deleting instance is set to Keep disk. Scroll down and click Save.
