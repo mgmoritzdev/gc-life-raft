@@ -23,7 +23,27 @@ of non-disclosure breaking.
 
 4.  [x] Once the file is transferred, go ahead and run it. This will download the appropriate packages and leave them on your life-raft instance for later use.
 
-5. [ ] Now that the life-raft is mostly prepared, stop the problematic instance and determine the name of its boot disk: you can do this by going in the Google Cloud Console, select Compute Engine > VM Instances, and select the problematic instance. Click Stop. Note the name of the boot disk in the Boot disk and local disks section.
+5. [x] Now that the life-raft is mostly prepared, stop the problematic instance and determine the name of its boot disk: you can do this by going in the Google Cloud Console, select Compute Engine > VM Instances, and select the problematic instance. Click Stop. Note the name of the boot disk in the Boot disk and local disks section.
+
+```
+gcloud compute disks list
+
+NAME                ZONE                  SIZE_GB  TYPE         STATUS
+**clirea-67**           southamerica-east1-a  10       pd-standard  READY
+clirea-prod         southamerica-east1-a  150      pd-ssd       READY
+db-prod             southamerica-east1-a  30       pd-ssd       READY
+dsk-db-prod-arch    southamerica-east1-a  200      pd-ssd       READY
+dsk-db-prod-backup  southamerica-east1-a  1000     pd-ssd       READY
+dsk-db-prod-orcl    southamerica-east1-a  100      pd-ssd       READY
+dsk-db-prod-redo01  southamerica-east1-a  10       pd-ssd       READY
+dsk-db-prod-redo02  southamerica-east1-a  10       pd-ssd       READY
+dsk-db-prod-tmp     southamerica-east1-a  10       pd-ssd       READY
+dsk-db-prod-u01     southamerica-east1-a  1000     pd-ssd       READY
+instance-1          southamerica-east1-a  10       pd-standard  READY
+life-raft           southamerica-east1-a  10       pd-standard  READY
+vmmin               southamerica-east1-a  10       pd-ssd       READY
+``` 
+
 
 6. [ ] Next, create a snapshot of the problematic instance’s boot disk:
 In the Google Cloud Console, select Compute Engine > Snapshots, and click Create Snapshot. Name the snapshot something descriptive. For an example, we'll name the snapshot [INSTANCE-NAME]-disk-snapshot. For the Source disk, choose the problematic instance's boot disk determined in the previous step. Click Create.
