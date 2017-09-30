@@ -16,7 +16,7 @@ dist_name_and_vers="$dist_name-$dist_vers"
 
 # Determine packaging tools:
 #which apt
-if [ "$?" == "0" ]; then
+if [ "$dist_name_and_vers" == "0" ]; then
    pkg_tools="apt"
 else
    which yum
