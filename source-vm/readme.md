@@ -1,19 +1,19 @@
-# [Importing Boot Disk Images to Compute Engine on Google Cloud](https://cloud.google.com/compute/docs/images/import-existing-image)
+## [Importing Boot Disk Images to Compute Engine on Google Cloud](https://cloud.google.com/compute/docs/images/import-existing-image)
 Overview
 
 To import a boot disk image to Compute Engine, use the following process:
 
 1. Plan your import path. You must identify where you are going to prepare your boot disk image before you upload it, and how you are going to connect to that image after it boots in the Compute Engine environment.
 
-The process described in here is going to be made using an Cent OS 6.7 Version. We are going to use Oracle Virtual Box. Terminal and command line usage on both virtualization platforms will be prioritezed. 
+  The process described in here is going to be made using a Cent OS 6.7 Version. We are going to use Oracle Virtual Box. Terminal and command line usage on both virtualization platforms will be prioritezed. 
 
-2. Install new operational system, target is one of the choices present [here](http://vault.centos.org/6.7/isos/x86_64/). Option of choice for this work will be the [minimal version](http://vault.centos.org/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.iso). Sometimes the iso link may be a little troublesome of being download, specially because it triggers a page instead of the actual iso file. To fix this, install [aria2c](https://aria2.github.io/) and then: 
+2. Install new operational system, target is one of the choices presented in [here](http://vault.centos.org/6.7/isos/x86_64/). Option of choice for this work will be the [minimal version](http://vault.centos.org/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.iso). Sometimes the iso link may be a little troublesome of being downloaded, specially because it triggers a page instead of the actual iso file. To fix this, install [aria2c](https://aria2.github.io/) and then torrent it down: 
 
 ```
-aria2c https://aria2.github.io/
+aria2c http://vault.centos.org/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.torrent
 ```
 
-*Debt*: learn and simplify VBoxManage command to create new vm with all the requirements demanded for this work to succeed. 
+**Debt**: learn and simplify VBoxManage command to create new vm with all the requirements demanded for this work to succeed. 
 
 3. After installation, execute the following commands in order to make it better: 
 
