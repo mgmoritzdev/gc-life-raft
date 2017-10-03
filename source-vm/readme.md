@@ -13,7 +13,16 @@ To import a boot disk image to Compute Engine, use the following process:
 aria2c http://vault.centos.org/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.torrent
 ```
 
-**Debt**: learn and simplify VBoxManage command to create new vm with all the requirements demanded for this work to succeed. 
+The followin VBoxManage list of commands are going to create new vm with all the requirements demanded for this work to succeed. The commands were all put inside the underlying function inside [tset](https://github.com/marcosantana77/tset/blob/master/bashrc/.bash_alias)/.bash_alias file, line #103.
+
+Usage is: 
+
+```
+vbcreatel64 vmname 2 10 OS_Setup_iso_path.iso
+``` 
+
+This will create a vm Linux 64 at the current directory with 2gb RAM and 10gb Fixed Disk Size (**??? hd fixed size wasn't created, a test will take place to see if gcloud upload image actually accept dinamically sized images**)
+
 
 3. After installation, execute the following commands in order to make it better: 
 
@@ -21,7 +30,18 @@ aria2c http://vault.centos.org/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.torrent
 yum update -y && yum upgrade -y
 ```
 
-shutdown vm and clone it. Let's assume from now on that the first version
+**at this point it was observed that the machine lost its ability to shutdown with `sudo shutdown 0` or `sudo shutdown -r 0`. A new installation attempt was made in order to be certain that neither `yum update` or `yum upgrade` were responsable for this defect. The problem was quite simpler, documented at this [link](https://lists.centos.org/pipermail/centos/2007-April/037690.html). `shutdown -h 0` resolved the issue** 
+
+
+shutdown vm and clone it or snapshot it with
+
+```
+ vboxmanage snapshot $VM take $snapshotName
+```
+
+. Let's assume from now on that the first version
+
+
 2. Prepare your boot disk so it can boot within the Compute Engine environment and so you can access it after it boots.
 
 3. Create and compress the boot disk image file.
