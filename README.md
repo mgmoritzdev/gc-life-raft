@@ -150,7 +150,7 @@ ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 
 # Downgrade CentOS from 6.9 to 6.7
 Follow the steps in the [link](https://serverfault.com/a/697578) to downgrade CentOS
-  - [ ] Update yum packages editing /etc/yum.repos.d/CentOS-Base.repo accordind to [this link](https://www.centos.org/forums/viewtopic.php?t=36628). Use [these](http://vault.centos.org/6.7/).
+  - [ ] Update yum packages editing /etc/yum.repos.d/CentOS-Base.repo accordind to [this link](https://www.centos.org/forums/viewtopic.php?t=36628). Use [these files](http://vault.centos.org/6.7/).
   - [ ] Install kernel 2.6.32-573.26.1
   - [ ] Downgrade the kernel
 
