@@ -175,7 +175,7 @@ sudo sed -i -e 's/$releasever/6.7/g' /etc/yum.repos.d/CentOS-Base.repo
 
 sudo yum clean all
 ```
-output
+output:
 ```
 Loaded plugins: fastestmirror, security
 Cleaning repos: base centos-sclo-rh centos-sclo-sclo epel extras google-cloud-compute updates
