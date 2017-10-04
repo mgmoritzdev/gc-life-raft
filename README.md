@@ -2,7 +2,7 @@
 
 ## How To Rescue your CentOS 6.5 import and install the Linux Guest Environment===
 
-1. [x] The first thing we will need to do is create a new instance from the Google-provided public CentOS 6 image. We will call this the ‘life-raft’ instance, and we will use it to rescue your CentOS 6.7 disk to install the Linux Guest environment and make a new image from that disk which you can use for creating future CentOS 6.7 instances. 
+1. [x] The first thing we will need to do is create a new instance from the Google-provided public CentOS 6 image. We will call this the ‘life-raft’ instance, and we will use it to rescue your CentOS 6.7 disk to install the Linux Guest environment and make a new image from that disk which you can use for creating future CentOS 6.7 instances.
 
 2. [x] Once you have created the life-raft instance, go ahead and stop your CentOS 6.7 instance for now (we will refer to your CentOS 6.7 instance as the ‘problematic instance’).
 
@@ -76,7 +76,7 @@ Updated [https://www.googleapis.com/compute/v1/projects/clirea-prod/zones/southa
 
 
 9. [x] Connect to the life-raft instance via SSH in the Browser, mount the disk you just attached, install the Guest Environment packages onto it, then unmount the disk
-    •	  [x]  List storage devices. Note the device identifier for the unmounted disk. If sda is the life raft instance's boot device, then the additional disk is likely sdb. The primary volume on it is likely sdb1 if the disk only has one volume. Otherwise, lsblk can provide you with a list of volumes on the device. (Run: `lsblk` to get this info) 
+    •	  [x]  List storage devices. Note the device identifier for the unmounted disk. If sda is the life raft instance's boot device, then the additional disk is likely sdb. The primary volume on it is likely sdb1 if the disk only has one volume. Otherwise, lsblk can provide you with a list of volumes on the device. (Run: `lsblk` to get this info)
 
     • Create a new mount point and mount the additional disk as follows. The following code block will mount ext4 and xfs filesystems:
     • [x] The [second script](./script2.sh) will do that for you
@@ -138,7 +138,7 @@ clirea-67-r  southamerica-east1-a  custom (1 vCPU, 1.75 GiB)               10.15
 ```
 
 12. [ ] Now that the repaired instance is created, verify that you can connect successfully to the repaired instance via SSH in the Browser.
-     •	 If you were able to successfully connect to the repaired instance, you can now clean up. You may delete the problematic instance, its problematic boot disk, and the snapshot you created. 
+     •	 If you were able to successfully connect to the repaired instance, you can now clean up. You may delete the problematic instance, its problematic boot disk, and the snapshot you created.
 
 ```
 Unfortunately the same error remains
@@ -149,8 +149,8 @@ ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 ```
 
 # Downgrade CentOS from 6.9 to 6.7
-Follow the steps in the [[https://serverfault.com/a/697578][link]] to downgrade CentOS
-  - [ ] Update yum packages editing /etc/yum.repos.d/CentOS-Base.repo accordind to [[https://www.centos.org/forums/viewtopic.php?t=36628][this link]]. Use [[http://vault.centos.org/6.7/][these]].
+Follow the steps in the [link](https://serverfault.com/a/697578) to downgrade CentOS
+  - [ ] Update yum packages editing /etc/yum.repos.d/CentOS-Base.repo accordind to [this link](https://www.centos.org/forums/viewtopic.php?t=36628). Use [these](http://vault.centos.org/6.7/).
   - [ ] Install kernel 2.6.32-573.26.1
   - [ ] Downgrade the kernel
 
